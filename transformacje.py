@@ -178,6 +178,7 @@ class Transformacje:
         Y = (N + h) * np.cos(f) * np.sin(l)
         Z = (N * (1 - self.e2) + h) * np.sin(f)
         return(X,Y,Z)
+<<<<<<< HEAD
 
     def flh2PL92(self, f, l):
      '''
@@ -381,3 +382,5 @@ class Transformacje:
          zz +=1
          
      return(n, e, u)
+=======
+>>>>>>> 387c5a8b62baa27cb1b33bd9b0a9887d8d82b94f
