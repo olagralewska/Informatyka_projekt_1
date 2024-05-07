@@ -178,7 +178,7 @@ class Transformacje:
         Y = (N + h) * np.cos(f) * np.sin(l)
         Z = (N * (1 - self.e2) + h) * np.sin(f)
         return(X,Y,Z)
-<<<<<<< HEAD
+
 
     def flh2PL92(self, f, l):
      '''
@@ -233,7 +233,7 @@ class Transformacje:
      return(x92,y92)
  
  
- def flh2PL00(self, f, l):
+    def flh2PL00(self, f, l):
      '''
      Konwersja współrzędnych geodezyjnych na układ współrzędnych płaskich 2000.
 
@@ -293,7 +293,7 @@ class Transformacje:
      return(x00,y00)
  
  
- def get_dXYZ(self, xa, ya, za, xb, yb, zb):
+    def get_dXYZ(self, xa, ya, za, xb, yb, zb):
      '''
      Funkcja ta jest wykorzystywana do liczenia róznicy wspolrzędnych punktów A i B, a następnie wykorzystywana do liczenia macierzy NEU.
      
@@ -312,7 +312,7 @@ class Transformacje:
      return(dXYZ)
  
  
- def rneu(self, f, l):
+    def rneu(self, f, l):
      '''
      Funkcja tworzy macierz obrotu R na podstawie szerokości i długości geodezyjnej.
 
@@ -337,7 +337,7 @@ class Transformacje:
      return(R)
  
  
- def xyz2neu(self, f, l, xa, ya, za, xb, yb, zb):
+    def xyz2neu(self, f, l, xa, ya, za, xb, yb, zb):
      '''
     Funkcja konwertuje współrzędne geodezyjne na współrzędne horyzontalne.
 
@@ -382,5 +382,4 @@ class Transformacje:
          zz +=1
          
      return(n, e, u)
-=======
->>>>>>> 387c5a8b62baa27cb1b33bd9b0a9887d8d82b94f
+
