@@ -10,7 +10,6 @@ import tkinter as tk
 import os as os
 from argparse import ArgumentParser
 
-
 class Transformacje:
     
     def __init__(self, model: str="WGS84"):
@@ -179,4 +178,3 @@ class Transformacje:
         Y = (N + h) * np.cos(f) * np.sin(l)
         Z = (N * (1 - self.e2) + h) * np.sin(f)
         return(X,Y,Z)
-
