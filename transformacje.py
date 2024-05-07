@@ -179,7 +179,7 @@ class Transformacje:
         Z = (N * (1 - self.e2) + h) * np.sin(f)
         return(X,Y,Z)
 
- def flh2PL92(self, f, l):
+    def flh2PL92(self, f, l):
      '''
      Konwersja współrzędnych geodezyjnych na układ współrzędnych płaskich 1992 (PL92).
 
