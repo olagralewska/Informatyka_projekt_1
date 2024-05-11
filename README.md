@@ -33,7 +33,7 @@ Oto przykłady wykorzystania programu w różnych scenariuszach:
 
    WYNIK: \
   *fi = 52.0973 [deg]; lam = 21.0315 [deg]; h = 141.399 [m] | BLH | 
-  grs80* \
+  grs80* 
  - Przekształcenie współrzędnych z pliku tekstowego z wykorzystaniem 
       modelu GRS80: \
    *python infa_projekt.py --input txt --model grs80 -txt wsp_input.txt - 
