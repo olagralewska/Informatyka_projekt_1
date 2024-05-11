@@ -27,15 +27,15 @@ metrach.
    
 Oto przykłady wykorzystania programu w różnych scenariuszach:
 - Przekształcenie współrzędnych XYZ na BLH z wykorzystaniem modelu 
-   GRS80:
+   GRS80: \
    *python infa_projekt.py --dane XYZ 3664000.123 1408000.456 5009000.789 --
    model grs80 --uklad BLH --output wyniki.txt*
 
-   WYNIK:
+   WYNIK: \
   *fi = 52.0973 [deg]; lam = 21.0315 [deg]; h = 141.399 [m] | BLH | 
-  grs80*
+  grs80* \
  - Przekształcenie współrzędnych z pliku tekstowego z wykorzystaniem 
-      modelu GRS80:
+      modelu GRS80: \
    *python infa_projekt.py --input txt --model grs80 -txt wsp_input.txt - 
    txt_out wsp_output.txt*
 
