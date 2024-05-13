@@ -6,9 +6,8 @@ Created on Tue May  7 20:44:05 2024
 """
 
 import numpy as np
-import tkinter as tk
-import os as os
 from argparse import ArgumentParser
+
 
 class Transformacje:
     
@@ -102,10 +101,10 @@ class Transformacje:
         return(N)
     
     
-    def hirvonen(self, X, Y, Z, output="dec_degree"):
+    def XYZ2BLH(self, X, Y, Z, output="dec_degree"):
         '''
         Funkcja Hirvonena wykorzystywana jest do zamiany współrzędnych ortokartezjańskich (X,Y,Z) na współrzędne
-        geodezyjne (FI,LAMBDA,H).
+        elipsoidalne (B,L,H).
         
         Parametry
          ----------
@@ -114,9 +113,9 @@ class Transformacje:
 
          Returns
          -------
-         fi : FLOAT
+         f : FLOAT
               Zmienna ta przedstawia szerokość geodezyjna.
-         lam : FLOAT
+         l : FLOAT
                Zmienna ta przedstawia dlugośc geodezyjna.
          h : FLOAT
              Zmienna ta przedstawia wysokość elipsoidalna.
@@ -130,7 +129,7 @@ class Transformacje:
         p = np.sqrt(X**2 + Y**2)
         f = np.arctan(Z/(p * (1 - self.e2)))
         while True:
-            N = Transformacje.get_np(self, f)
+            N = Transformacje.get_NP(self, f)
             h = (p / np.cos(f)) - N
             fp = f
             f = np.arctan(Z / (p * (1 - self.e2 * (N / (N+h)))))
@@ -154,9 +153,9 @@ class Transformacje:
 
     
     
-    def flh2XYZ(self, f, l, h):
+    def BLH2XYZ(self, f, l, h):
         '''
-        Funkcja ta jest odwrotnoscią algorytmu Hirvonena, zamienia wspólrzędne geodezyjne na ortokartezjanskie.
+        Funkcja ta jest odwrotnoscią algorytmu Hirvonena, zamienia wspólrzędne elipsoidalne na ortokartezjanskie.
         Parametry
         ----------
         f : FLOAT
@@ -173,16 +172,16 @@ class Transformacje:
         '''
         f=np.radians(f)
         l=np.radians(l)
-        N = Transformacje.get_np(self, f)
+        N = Transformacje.get_NP(self, f)
         X = (N + h) * np.cos(f) * np.cos(l)
         Y = (N + h) * np.cos(f) * np.sin(l)
         Z = (N * (1 - self.e2) + h) * np.sin(f)
         return(X,Y,Z)
 
 
-    def flh2PL92(self, f, l):
+    def BL2PL92(self, f, l):
      '''
-     Konwersja współrzędnych geodezyjnych na układ współrzędnych płaskich 1992 (PL92).
+     Konwersja współrzędnych elipsoidalne na układ współrzędnych płaskich 1992 (PL92).
 
      Parametry
      ----------
@@ -218,7 +217,7 @@ class Transformacje:
      t4 = t**4
      n2 = e_2 * (np.cos(f)**2)
      n4 = n2 ** 2
-     N = Transformacje.get_np(self, f)
+     N = Transformacje.get_NP(self, f)
      e4 = self.e2**2
      e6 = self.e2**3
      A0 = 1 - (self.e2/4) - ((3*e4)/64) - ((5*e6)/256)
@@ -233,9 +232,9 @@ class Transformacje:
      return(x92,y92)
  
  
-    def flh2PL00(self, f, l):
+    def BL2PL00(self, f, l):
      '''
-     Konwersja współrzędnych geodezyjnych na układ współrzędnych płaskich 2000.
+     Konwersja współrzędnych elipsoidalnych na układ współrzędnych płaskich 2000.
 
      Parametry
      ----------
@@ -277,7 +276,7 @@ class Transformacje:
      t4 = t**4
      n2 = e_2 * (np.cos(f)**2)
      n4 = n2 ** 2
-     N = Transformacje.get_np(self, f)
+     N = Transformacje.get_NP(self, f)
      e4 = self.e2**2
      e6 = self.e2**3
      A0 = 1 - (self.e2/4) - ((3*e4)/64) - ((5*e6)/256)
@@ -293,48 +292,9 @@ class Transformacje:
      return(x00,y00)
  
  
-    def get_dXYZ(self, xa, ya, za, xb, yb, zb):
-     '''
-     Funkcja ta jest wykorzystywana do liczenia róznicy wspolrzędnych punktów A i B, a następnie wykorzystywana do liczenia macierzy NEU.
-     
-     Parametry
-     ----------
-     XA, YA, ZA, XB, YB, ZB: FLOAT
-                             Zmienna ta przedstawia współrzędne w układzie ortokartezjańskim.
-
-     Returns
-     -------
-     dXYZ : ARRAY
-            Zmienna ta przedstawia macierz różnicy współrzędnych.
-
-     '''
-     dXYZ = np.array([xb-xa, yb-ya, zb-za])
-     return(dXYZ)
+  
  
- 
-    def rneu(self, f, l):
-     '''
-     Funkcja tworzy macierz obrotu R na podstawie szerokości i długości geodezyjnej.
-
-     Parametry
-     ----------
-     f : FLOAT
-         Zmienna ta przedstawia szerokość geodezyjna.
-     l : FLOAT
-         Zmienna ta przedstawia długośc geodezyjna.
-
-     Returns
-     -------
-     R ARRAY
-       Zmienna ta przedstawia macierz obrotu R.
-          
-     '''
-     f=np.radians(f)
-     l=np.radians(l)
-     R = np.array([[-np.sin(f)*np.cos(l), -np.sin(l), np.cos(f)*np.cos(l)],
-                   [-np.sin(f)*np.sin(l),  np.cos(l), np.cos(f)*np.sin(l)],
-                   [np.cos(f),             0,         np.sin(f)          ]])
-     return(R)
+   
  
  
     def xyz2neu(self, f, l, xa, ya, za, xb, yb, zb):
@@ -382,4 +342,58 @@ class Transformacje:
          zz +=1
          
      return(n, e, u)
+
+def main(input_file, transform, output_file, model):
+     transformacje = Transformacje(model)
+     results = []
+
+     with open(input_file, 'r') as file:
+         for line_number, line in enumerate(file, 1):
+             line = line.strip()
+             if not line:  # Skip empty lines
+                 print(f"Skipping empty line {line_number}.")
+                 continue
+
+             try:
+                 coords = list(map(float, line.split(',')))
+                 if transform == "XYZ2BLH":
+                     if len(coords) != 3:
+                         print(f"Line {line_number} skipped: Expected 3 values, got {len(coords)}.")
+                         continue
+                     result = transformacje.XYZ2BLH(*coords)
+                 elif transform == "BLH2XYZ":
+                     if len(coords) != 3:
+                         print(f"Line {line_number} skipped: Expected 3 values, got {len(coords)}.")
+                         continue
+                     result = transformacje.BLH2XYZ(*coords)
+                 elif transform == "BL2PL92":
+                     if len(coords) != 2:
+                         print(f"Line {line_number} skipped: Expected 2 values, got {len(coords)}.")
+                         continue
+                     result = transformacje.BL2PL92(*coords)
+                 elif transform == "BL2PL00":
+                     if len(coords) != 2:
+                         print(f"Line {line_number} skipped: Expected 2 values, got {len(coords)}.")
+                         continue
+                     result = transformacje.BL2PL00(*coords)
+                 else:
+                     raise ValueError(f"Unknown transformation: {transform}")
+                 results.append(result)
+             except ValueError as e:
+                 print(f"Error processing line {line_number}: {e}")
+
+     with open(output_file, 'w') as file:
+         for result in results:
+             file.write(','.join(map(str, result)) + '\n')
+     print(f'Results saved to {output_file}')
+
+if __name__ == "__main__":
+     parser = ArgumentParser()
+     parser.add_argument("--input", dest="input_file", required=True, help="Path to input file")
+     parser.add_argument("--transform", dest="transform", required=True, choices=["XYZ2BLH", "BLH2XYZ", "BL2PL92", "BL2PL00"], help="Transformation type")
+     parser.add_argument("--output", dest="output_file", required=True, help="Path to output file")
+     parser.add_argument("--model", dest="model", required=True, choices=["elipsoida WGS84", "elipsoida Krasowskiego", "elipsoida GRS80"], help="Ellipsoid model")
+
+     args = parser.parse_args()
+     main(args.input_file, args.transform, args.output_file, args.model)
 
