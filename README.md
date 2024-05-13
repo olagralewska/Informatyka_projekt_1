@@ -6,7 +6,7 @@ Obsługuje również transformacje z geocentrycznych na topocentryczne współrz
 Dodatkowo umożliwia transformacje współrzędnych BL między różnymi układami odniesienia(np. PL1992, PL2000).
 Obsługiwane elipsoidy to WGS84, GRS80, elipsoida Krasowskiego.
 # 2) Jakie wymagania należy spełnić by program działał na danym komputerze?
- Należy posiadać oprogramowanie Pythona w wersji 3.x, bibliotekę Numpy, tkinter, os, ArgumentParser.
+ Należy posiadać oprogramowanie Pythona w wersji 3.x, bibliotekę Numpy, argparse(ArgumentParser).
 # 3) Dla jakiego systemu operacyjnego został napisany program?
 Program można uruchomić na dowolnym systemie obslugującym Pythona. 
 Środowisko Pythona jest dostępne na wielu platformach np. Windows, 
