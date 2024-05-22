@@ -19,7 +19,13 @@ w folderze, w którym znajduje się plik programu, i wpisz
 *"python nazwa_pliku.py --input plik.txt --transform funckja --output plik.txt --model "model_elipsoidy"".*
 Przykładowe wywołanie dla zamiany współrzędnych XYZ na BLH dla elipsoidy WGS84
 *"python transformacje.py --input dane.txt --transform XYZ2BLH --output wyniki.txt --model "elipsoida WGS84"".*
-Współrzędne XYZ należy podać w metrach, natomiast współrzędne elipsoidalne BL w stopniach dziesiętnych i H w metrach
+Jednostki: 
+Współrzędne XYZ należy podać w metrach,
+współrzędne elipsoidalne BL w stopniach dziesiętnych i H w metrach,
+Po transformacji otrzymamy wyniki:
+Współrzędne XYZ w metrach,
+współrzędne elipsoidalne BL w stopniach, minutach, sekundach i H w metrach.
+
   
    Co ważne dane wejściowe w pliku tekstowym powinny przedstawiać się 
    następująco: \
