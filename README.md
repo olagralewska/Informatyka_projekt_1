@@ -19,7 +19,12 @@ w folderze, w którym znajduje się plik programu, i wpisz
 *"python nazwa_pliku.py --input plik.txt --transform funckja --output plik.txt --model "model_elipsoidy"".*
 Przykładowe wywołanie dla zamiany współrzędnych XYZ na BLH dla elipsoidy WGS84
 *"python transformacje.py --input dane.txt --transform XYZ2BLH --output wyniki.txt --model "elipsoida WGS84"".*
-Aby wykonać transformacje xyz2neu należy podać szerokość i długość geodezyjną punktu referencyjnego, czyli środka układu (f,l) oraz współrzędne orto-kartezjańskie punktu referencyjnego (xa,ya,za) i punktu do przetransformowania(xb,yb,zb).
+Aby wykonać transformacje xyz2neu należy podać współrzędne orto-kartezjańskie punktu referencyjnego (xa,ya,za) i punktu do przetransformowania(xb,yb,zb). Plik tekstowy powininen wyglądać następująco: 
+1234567.890,2345678.910,3456789.920,1234568.891,2345679.911,3456790.921
+Współrzędne powinny być podane po przecinku i plik nie może zawierać inncyh danych. Jeżeli chcemy dodać kolejny punkt do liczenia należy to zrobić w nowym wierszu.
+Przykładowe wywołanie dla zamiany współrzędnych XYZ na NEU dla elipsoidy krasowskiego
+*"python transformacje.py --input dane.txt --transform xyz2neu --output wyniki.txt --model "elipsoida Krasowskiego"".*
+
 
 Jednostki: 
 Współrzędne XYZ należy podać w metrach,
