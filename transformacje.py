@@ -291,7 +291,30 @@ class Transformacje:
      y00 = ygk * 0.999923 + strefa * 1000000 + 500000
      return(x00,y00)
  
- 
+    def rneu(self, f, l):
+        """
+        Definicja ta tworzy macierz obrotu R, która wymagana jest do wyliczenia macierzy neu.
+    
+        Parameters
+        ----------
+        f : FLOAT
+            [stopnie dziesiętne] - szerokość geodezyjna.
+        l : FLOAT
+            [stopnie dziesiętne] - długość geodezyjna.
+    
+        Returns
+        -------
+        R ARRAY
+            macierz obrotu R
+    
+        """
+        f=np.radians(f)
+        l=np.radians(l)
+        R = np.array([[-np.sin(f)*np.cos(l), -np.sin(l), np.cos(f)*np.cos(l)],
+                      [-np.sin(f)*np.sin(l),  np.cos(l), np.cos(f)*np.sin(l)],
+                      [np.cos(f),             0,         np.sin(f)          ]])
+        return(R)
+        
   
  
    
@@ -376,6 +399,11 @@ def main(input_file, transform, output_file, model):
                          print(f"Line {line_number} skipped: Expected 2 values, got {len(coords)}.")
                          continue
                      result = transformacje.BL2PL00(*coords)
+                 elif transform == "xyz2neu":
+                     if len(coords) != 3:
+                         print(f"Line {line_number} skipped: Expected 3 values, got {len(coords)}.")
+                         continue
+                     result = transformacje.xyz2neu(*coords)
                  else:
                      raise ValueError(f"Unknown transformation: {transform}")
                  results.append(result)
@@ -390,7 +418,7 @@ def main(input_file, transform, output_file, model):
 if __name__ == "__main__":
      parser = ArgumentParser()
      parser.add_argument("--input", dest="input_file", required=True, help="Path to input file")
-     parser.add_argument("--transform", dest="transform", required=True, choices=["XYZ2BLH", "BLH2XYZ", "BL2PL92", "BL2PL00"], help="Transformation type")
+     parser.add_argument("--transform", dest="transform", required=True, choices=["XYZ2BLH", "BLH2XYZ", "BL2PL92", "BL2PL00", "xyz2neu"], help="Transformation type")
      parser.add_argument("--output", dest="output_file", required=True, help="Path to output file")
      parser.add_argument("--model", dest="model", required=True, choices=["elipsoida WGS84", "elipsoida Krasowskiego", "elipsoida GRS80"], help="Ellipsoid model")
 
